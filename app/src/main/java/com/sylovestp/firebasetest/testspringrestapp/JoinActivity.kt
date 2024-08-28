@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -15,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.FutureTarget
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityJoinBinding
 import com.sylovestp.firebasetest.testspringrestapp.model.UserDTO
@@ -27,15 +28,13 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.IOException
+
 
 class JoinActivity : AppCompatActivity() {
 
@@ -47,7 +46,16 @@ class JoinActivity : AppCompatActivity() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             imageUri = result.data?.data!!
-            imageView.setImageURI(imageUri)
+//            imageView.setImageURI(imageUri)
+            // 코너 반경 (px 단위)
+            val cornerRadius = 500
+
+
+// 이미지 로드 및 코너 둥글게 적용
+            Glide.with(this)
+                .load(imageUri) // 이미지 URL 또는 로컬 리소스
+                .apply(RequestOptions().transform(RoundedCorners(cornerRadius)))
+                .into(imageView)
         }
     }
 
@@ -58,6 +66,9 @@ class JoinActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         imageView = binding.userProfile
+
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -81,6 +92,12 @@ class JoinActivity : AppCompatActivity() {
                 //
                 imageUri?.let { it1 -> processImage(userDTO, it1) }
             }
+        }
+
+        binding.loginBtn.setOnClickListener {
+            val intent = Intent(this@JoinActivity, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
 
