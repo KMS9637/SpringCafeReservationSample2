@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TestSpringRestApp</string>
+    <string name="subject_name">AI Image Classify</string>
+</resources>
