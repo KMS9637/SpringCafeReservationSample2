@@ -95,6 +95,9 @@ class JoinActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@JoinActivity, "User created successfully", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@JoinActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(this@JoinActivity, "Failed to create user: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
