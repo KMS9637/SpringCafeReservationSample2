@@ -82,9 +82,15 @@ class JoinActivity : AppCompatActivity() {
 
         val networkService = (applicationContext as MyApplication).networkService
         val userRequestBody = createRequestBodyFromDTO(userDTO)
-        val filePart = imageUri?.let { createMultipartBodyFromFile(it) }
+//        val filePart = imageUri?.let { createMultipartBodyFromFile(it) }
+        // 이미지가 선택된 경우에만 파일을 전송
+        val body: MultipartBody.Part? = imageUri?.let {
+            val imageBytes = getBytesFromUri(it)
+            val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageBytes)
+            MultipartBody.Part.createFormData("profileImage", "image.jpg", requestFile)
+        }
 
-        val call = networkService.registerUser(userRequestBody, filePart)
+        val call = networkService.registerUser(userRequestBody, body)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
@@ -119,10 +125,10 @@ class JoinActivity : AppCompatActivity() {
 //        return contentResolver.getType(uri)
 //    }
 //
-//    private fun getBytesFromUri(uri: Uri): ByteArray {
-//        val inputStream = contentResolver.openInputStream(uri)
-//        return inputStream?.readBytes() ?: throw IOException("Unable to open InputStream from URI")
-//    }
+    private fun getBytesFromUri(uri: Uri): ByteArray {
+        val inputStream = contentResolver.openInputStream(uri)
+        return inputStream?.readBytes() ?: throw IOException("Unable to open InputStream from URI")
+    }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

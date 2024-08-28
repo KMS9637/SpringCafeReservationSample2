@@ -18,6 +18,6 @@ interface INetworkService {
 //    fun registerUser(@Body userDTO: UserDTO): Call<Void>
     fun registerUser(
         @Part("user") user: RequestBody,          // JSON 데이터
-        @Part file: MultipartBody.Part? = null    // 파일 데이터 (Optional)
+        @Part profileImage: MultipartBody.Part? = null    // 파일 데이터 (Optional)
     ): Call<ResponseBody>
 }
