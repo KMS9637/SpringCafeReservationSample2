@@ -1,6 +1,7 @@
 package com.sylovestp.firebasetest.testspringrestapp
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,14 +14,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.FutureTarget
 import com.google.gson.Gson
 import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityJoinBinding
-import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityLoginBinding
 import com.sylovestp.firebasetest.testspringrestapp.model.UserDTO
 import com.sylovestp.firebasetest.testspringrestapp.retrofit.MyApplication
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -28,6 +33,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 
@@ -71,26 +77,18 @@ class JoinActivity : AppCompatActivity() {
             val userDTO = UserDTO(username,password,email)
             Toast.makeText(this@JoinActivity, "${username}, ${password},${email}, ${imageUri}", Toast.LENGTH_SHORT).show()
             if (userDTO != null) {
-                registerUser(userDTO,imageUri)
+                // 회원가입시,
+                //
+                imageUri?.let { it1 -> processImage(userDTO, it1) }
             }
         }
 
 
     } //onCreate
 
-    private fun registerUser(userDTO: UserDTO, imageUri: Uri?) {
-
+    private fun uploadData(user: RequestBody, profileImage: MultipartBody.Part?) {
         val networkService = (applicationContext as MyApplication).networkService
-        val userRequestBody = createRequestBodyFromDTO(userDTO)
-//        val filePart = imageUri?.let { createMultipartBodyFromFile(it) }
-        // 이미지가 선택된 경우에만 파일을 전송
-        val body: MultipartBody.Part? = imageUri?.let {
-            val imageBytes = getBytesFromUri(it)
-            val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageBytes)
-            MultipartBody.Part.createFormData("profileImage", "image.jpg", requestFile)
-        }
-
-        val call = networkService.registerUser(userRequestBody, body)
+        val call = networkService.registerUser(user, profileImage)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
@@ -104,12 +102,10 @@ class JoinActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("MainActivity", "Failed to create user", t)
-                Toast.makeText(this@JoinActivity, "Failed to create user: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@JoinActivity, "Request failed: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-
-    } //registerUser
+    }
 
     fun createRequestBodyFromDTO(userDTO: UserDTO): RequestBody {
         val gson = Gson()
@@ -117,9 +113,9 @@ class JoinActivity : AppCompatActivity() {
         return json.toRequestBody("application/json".toMediaTypeOrNull())
     }
 
-    private fun getBytesFromUri(uri: Uri): ByteArray {
-        val inputStream = contentResolver.openInputStream(uri)
-        return inputStream?.readBytes() ?: throw IOException("Unable to open InputStream from URI")
+    private fun createMultipartBodyFromBytes(imageBytes: ByteArray): MultipartBody.Part {
+        val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageBytes)
+        return MultipartBody.Part.createFormData("profileImage", "image.jpg", requestFile)
     }
 
     private fun openGallery() {
@@ -127,14 +123,49 @@ class JoinActivity : AppCompatActivity() {
         selectImageLauncher.launch(intent)
     }
 
-    private fun getFileFromUri(uri: Uri): File {
-        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = contentResolver.query(uri, filePathColumn, null, null, null)
-        cursor!!.moveToFirst()
-        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-        val filePath = cursor.getString(columnIndex)
-        cursor.close()
-        return File(filePath)
+    private fun processImage(userDTO: UserDTO, uri: Uri) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                // 1. JSON 데이터 생성
+                val userRequestBody = createRequestBodyFromDTO(userDTO)
+
+                // 2. 이미지 축소 및 MultipartBody.Part 생성
+                val resizedBitmap = getResizedBitmap(uri, 200, 200) // 200x200 크기로 축소
+                val imageBytes = bitmapToByteArray(resizedBitmap)
+                val profileImagePart = createMultipartBodyFromBytes(imageBytes)
+
+                // 3. 서버로 전송
+                uploadData(userRequestBody, profileImagePart)
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@JoinActivity, "Image processed successfully", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@JoinActivity, "Error processing image", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private suspend fun getResizedBitmap(uri: Uri, width: Int, height: Int): Bitmap {
+        return withContext(Dispatchers.IO) {
+            val futureTarget: FutureTarget<Bitmap> = Glide.with(this@JoinActivity)
+                .asBitmap()
+                .load(uri)
+                .override(width, height)  // 지정된 크기로 축소
+                .submit()
+
+            // Bitmap을 반환
+            futureTarget.get()
+        }
+    }
+
+    fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream) // 압축 품질을 80%로 설정
+        return byteArrayOutputStream.toByteArray()
     }
 
 
