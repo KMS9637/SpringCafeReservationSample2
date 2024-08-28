@@ -21,12 +21,13 @@
             android:background="#FF9800"/>
 
         <ImageView
+            android:id="@+id/user_profile"
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/test"
-            android:maxWidth="500dp"
-            android:maxHeight="400dp"
+            android:src="@drawable/user_basic"
+            android:maxWidth="300dp"
+            android:maxHeight="200dp"
             android:adjustViewBounds="true"/>
 
         <LinearLayout
@@ -36,22 +37,32 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/user_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="username 입력해주세요"
+                android:inputType="text"/>
+
+            <EditText
+                android:id="@+id/user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="이메일 입력해주세요"
                 android:inputType="textEmailAddress"/>
 
             <EditText
+                android:id="@+id/user_password1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="패스워드 입력해주세요"
                 android:inputType="textPassword"/>
 
             <EditText
+                android:id="@+id/user_password2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="전화번호 입력해주세요"
-                android:inputType="phone"/>
+                android:hint="패스워드 한번 더 입력해주세요"
+                android:inputType="textPassword"/>
 
         </LinearLayout>
 
@@ -62,11 +73,13 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/join_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="회원가입"/>
 
             <Button
+                android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="로그인"/>
