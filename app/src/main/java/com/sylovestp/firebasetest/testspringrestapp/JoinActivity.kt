@@ -114,20 +114,9 @@ class JoinActivity : AppCompatActivity() {
     fun createRequestBodyFromDTO(userDTO: UserDTO): RequestBody {
         val gson = Gson()
         val json = gson.toJson(userDTO)
-        return RequestBody.create("application/json".toMediaTypeOrNull(), json)
+        return json.toRequestBody("application/json".toMediaTypeOrNull())
     }
 
-    fun createMultipartBodyFromFile(uri: Uri): MultipartBody.Part? {
-        val file = getFileFromUri(uri)
-        val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), file)
-        return MultipartBody.Part.createFormData("file", file.name, requestFile)
-    }
-
-
-//    private fun getMimeType(uri: Uri): String? {
-//        return contentResolver.getType(uri)
-//    }
-//
     private fun getBytesFromUri(uri: Uri): ByteArray {
         val inputStream = contentResolver.openInputStream(uri)
         return inputStream?.readBytes() ?: throw IOException("Unable to open InputStream from URI")
