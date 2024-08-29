@@ -61,7 +61,7 @@
                 android:id="@+id/ch06LsyTestPagingBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="테스트유저들페이징"/>
+                android:text="테스트유저들1차확인노페이징"/>
 
             <Button
                 android:id="@+id/ch06LsyTestPagingBtn2"
