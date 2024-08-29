@@ -1,7 +1,7 @@
 package com.sylovestp.firebasetest.testspringrestapp.repository
 
 import android.content.SharedPreferences
-import com.sylovestp.firebasetest.testspringrestapp.model.LoginRequest
+import com.sylovestp.firebasetest.testspringrestapp.dto.LoginRequest
 import com.sylovestp.firebasetest.testspringrestapp.retrofit.INetworkService
 
 class LoginRepository(private val apiService: INetworkService, private val sharedPreferences: SharedPreferences) {

@@ -1,6 +1,4 @@
-package com.sylovestp.firebasetest.testspringrestapp.model
-
-import android.net.Uri
+package com.sylovestp.firebasetest.testspringrestapp.dto
 
 data class UserDTO(
     val username: String,

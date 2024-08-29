@@ -1,4 +1,4 @@
-package com.sylovestp.firebasetest.testspringrestapp.model
+package com.sylovestp.firebasetest.testspringrestapp.dto
 
 data class LoginRequest(
     val username: String,

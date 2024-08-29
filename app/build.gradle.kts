@@ -60,11 +60,18 @@ dependencies {
     //room
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation(libs.androidx.paging.common.android)
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.mediation.test.suite)
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("androidx.activity:activity-ktx:1.7.2")
     //room
+
+    // 추가
+    implementation ("androidx.fragment:fragment-ktx:1.3.6")
+    implementation ("androidx.activity:activity-ktx:1.2.3")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
