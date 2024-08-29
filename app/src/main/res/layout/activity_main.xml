@@ -63,6 +63,12 @@
                 android:layout_height="wrap_content"
                 android:text="테스트유저들페이징"/>
 
+            <Button
+                android:id="@+id/ch06LsyTestPagingBtn2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="테스트유저들페이징2뷰모델버전페이징"/>
+
 
         </LinearLayout>
 

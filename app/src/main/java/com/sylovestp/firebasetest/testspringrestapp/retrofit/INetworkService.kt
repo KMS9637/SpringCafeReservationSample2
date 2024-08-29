@@ -33,4 +33,10 @@ interface INetworkService {
         @Query("page") page: Int,
         @Query("size") size: Int
     ): Call<PageResponse<UserItem>>
+
+    @GET("/api/users/page")
+    suspend fun getItems2(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<PageResponse<UserItem>>
 }

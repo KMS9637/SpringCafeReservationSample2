@@ -43,6 +43,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.ch06LsyTestPagingBtn2.setOnClickListener {
+            val intent = Intent(this,UserRecyclerViewVer2Activity::class.java)
+            startActivity(intent)
+        }
+
 
     } //oncreate
 }
