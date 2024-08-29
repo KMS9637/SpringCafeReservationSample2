@@ -1,10 +1,12 @@
 package com.sylovestp.firebasetest.testspringrestapp.retrofit
 
+import com.sylovestp.firebasetest.testspringrestapp.model.LoginRequest
 import com.sylovestp.firebasetest.testspringrestapp.model.UserDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -20,4 +22,7 @@ interface INetworkService {
         @Part("user") user: RequestBody,          // JSON 데이터
         @Part profileImage: MultipartBody.Part? = null    // 파일 데이터 (Optional)
     ): Call<ResponseBody>
+
+    @POST("/generateToken")
+    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 }

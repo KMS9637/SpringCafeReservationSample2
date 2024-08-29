@@ -36,12 +36,14 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/login_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="이메일 입력해주세요"
+                android:hint="유저명 입력해주세요"
                 android:inputType="textEmailAddress"/>
 
             <EditText
+                android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="패스워드 입력해주세요"
