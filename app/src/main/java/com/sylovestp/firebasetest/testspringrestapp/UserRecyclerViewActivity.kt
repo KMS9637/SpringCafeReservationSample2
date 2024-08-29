@@ -45,7 +45,7 @@ class UserRecyclerViewActivity : AppCompatActivity() {
         myApplication.initialize(this)
         apiService = myApplication.getApiService()
 
-        val userListCall = apiService.getItems(1,10)
+        val userListCall = apiService.getItems(0,10)
 
         userListCall.enqueue(object : Callback<PageResponse<UserItem>> {
             //익명 클래스가, Callback , 레트로핏2에서 제공하는 인터페이스를 구현했고,
