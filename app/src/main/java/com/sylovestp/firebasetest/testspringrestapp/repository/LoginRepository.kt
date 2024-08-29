@@ -13,10 +13,12 @@ class LoginRepository(private val apiService: INetworkService, private val share
         return if (response.isSuccessful && response.body() != null) {
             val accessToken = response.body()?.accessToken
             val refreshToken = response.body()?.refreshToken
+            val username = response.body()?.username
 
             // JWT 토큰을 SharedPreferences에 저장
             sharedPreferences.edit().putString("jwt_token", accessToken).apply()
-            sharedPreferences.edit().putString("refreshToken", accessToken).apply()
+            sharedPreferences.edit().putString("refreshToken", refreshToken).apply()
+            sharedPreferences.edit().putString("username", username).apply()
 
             true
         } else {

@@ -56,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.loginResult.observe(this) { success ->
             if (success) {
+                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
                 // 로그인 성공 시 다음 화면으로 이동
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
