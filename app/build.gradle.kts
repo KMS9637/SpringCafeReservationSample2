@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     //room
     id("com.google.devtools.ksp") version "1.9.20-1.0.14"
+    id("kotlin-kapt")
 }
 
 android {
@@ -71,7 +72,9 @@ dependencies {
 
     // 추가
     implementation ("androidx.fragment:fragment-ktx:1.3.6")
-    implementation ("androidx.activity:activity-ktx:1.2.3")
+    // 추가 glide 관련 툴 .
+    kapt ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation ("com.github.bumptech.glide:okhttp3-integration:4.12.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

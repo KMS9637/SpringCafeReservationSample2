@@ -37,5 +37,12 @@ class MainActivity : AppCompatActivity() {
             // 메세지 전달하기.
             startActivity(intent)
         }
+
+        binding.ch06LsyTestPagingBtn.setOnClickListener {
+            val intent = Intent(this,UserRecyclerViewActivity::class.java)
+            startActivity(intent)
+        }
+
+
     } //oncreate
 }

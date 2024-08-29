@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".UserRecyclerViewActivity">
 
-    <!-- Fragment를 추가할 컨테이너 -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <!--리사이클러뷰 먼저 붙이기-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/retrofitRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

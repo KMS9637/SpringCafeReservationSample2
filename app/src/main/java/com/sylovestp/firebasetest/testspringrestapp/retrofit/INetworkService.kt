@@ -29,8 +29,8 @@ interface INetworkService {
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
     @GET("/api/users/page")
-    suspend fun getItems(
+    fun getItems(
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Response<PageResponse<UserItem>>
+    ): Call<PageResponse<UserItem>>
 }

@@ -1,10 +1,8 @@
 package com.sylovestp.firebasetest.testspringrestapp.viewModelFactory
 
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.sylovestp.firebasetest.testspringrestapp.repository.LoginRepository
-import com.sylovestp.firebasetest.testspringrestapp.retrofit.INetworkService
 import com.sylovestp.firebasetest.testspringrestapp.viewModel.LoginViewModel
 
 class LoginViewModelFactory(
