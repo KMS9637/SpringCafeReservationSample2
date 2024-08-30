@@ -24,7 +24,7 @@ interface INetworkService {
 //    @POST("/public/users/predict")
 //    fun registerUser(@Body userDTO: UserDTO): Call<Void>
     fun predictImage(
-        @Part("user") user: RequestBody?,          // JSON 데이터
+//        @Part("user") user: RequestBody?,          // JSON 데이터
         @Part image: MultipartBody.Part? = null    // 파일 데이터 (Optional)
     ): Call<PredictionResult>
 

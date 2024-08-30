@@ -78,12 +78,8 @@ class AiPredictActivity : AppCompatActivity() {
         }
 
         binding.predictSendBtn.setOnClickListener {
-            val username = "test"
-            val password = "1234"
-            val email = "test@naver.com"
-            val userDTO = UserDTO(username,password,email)
-            Toast.makeText(this@AiPredictActivity, "${username}, ${password},${email}, ${imageUri}", Toast.LENGTH_SHORT).show()
-           imageUri?.let { it1 -> processImage(userDTO,it1) }
+            Toast.makeText(this@AiPredictActivity, " ${imageUri}", Toast.LENGTH_SHORT).show()
+           imageUri?.let { it1 -> processImage(it1) }
 
         }
 
@@ -101,11 +97,11 @@ class AiPredictActivity : AppCompatActivity() {
     }
 
     // 이미지 처리 후, 서버로 전송하는 함수
-    private fun processImage(userDTO: UserDTO,uri: Uri) {
+    private fun processImage(uri: Uri) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 // 1. JSON 데이터 생성
-                val userRequestBody = createRequestBodyFromDTO(userDTO)
+//                val userRequestBody = createRequestBodyFromDTO(userDTO)
 
                 // 2. 이미지 축소 및 MultipartBody.Part 생성
                 val resizedBitmap = getResizedBitmap(uri, 200, 200) // 200x200 크기로 축소
@@ -114,7 +110,7 @@ class AiPredictActivity : AppCompatActivity() {
                 Log.d("lsy","profileImagePart 1" + profileImagePart)
 
                 // 3. 서버로 전송
-                uploadData(userRequestBody,profileImagePart)
+                uploadData(profileImagePart)
 
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@AiPredictActivity, "Image processed successfully", Toast.LENGTH_SHORT).show()
@@ -150,7 +146,7 @@ class AiPredictActivity : AppCompatActivity() {
     }// 함수끝
 
 
-    private fun uploadData(user: RequestBody, profileImage: MultipartBody.Part?) {
+    private fun uploadData(profileImage: MultipartBody.Part?) {
         // 레트로핏 통신 이용해서, 서버에 전달하기전에, 인터셉터 이용해서, 헤더에 토큰 달기.
         val myApplication = applicationContext as MyApplication
         myApplication.initialize(this)
@@ -161,7 +157,7 @@ class AiPredictActivity : AppCompatActivity() {
             Log.d("lsy", "profileImage 2: " + profileImage.body.contentLength())
         }
 
-        val call = apiService.predictImage(user,profileImage)
+        val call = apiService.predictImage(profileImage)
         call.enqueue(object : Callback<PredictionResult> {
             override fun onResponse(call: Call<PredictionResult>, response: Response<PredictionResult>) {
                 if (response.isSuccessful) {
