@@ -73,6 +73,12 @@ class AiPredictActivity : AppCompatActivity() {
             openGallery()
         }
 
+        binding.predictSendBtn.setOnClickListener {
+
+           imageUri?.let { it1 -> processImage(it1) }
+
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -87,7 +93,7 @@ class AiPredictActivity : AppCompatActivity() {
     }
 
     // 이미지 처리 후, 서버로 전송하는 함수
-    private fun processImage(userDTO: UserDTO, uri: Uri) {
+    private fun processImage(uri: Uri) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 // 1. JSON 데이터 생성
