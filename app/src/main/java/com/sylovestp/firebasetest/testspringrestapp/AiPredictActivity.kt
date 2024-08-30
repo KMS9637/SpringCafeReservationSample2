@@ -163,7 +163,25 @@ class AiPredictActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(this@AiPredictActivity, "서버 전송 성공", Toast.LENGTH_SHORT).show()
                         Log.d("lsy","${response.body()}")
-                        resultView.text = response.body().toString()
+                        Log.d("lsy", "${response.body()?.predictedClassLabel}")
+                        Log.d("lsy", "${response.body()?.confidence}")
+                    Log.d("lsy", "${response.body()?.classConfidences?.get("망치")}")
+                    Log.d("lsy", "${response.body()?.classConfidences?.get("공업용가위")}")
+                    val predictedClassLabel = "${response.body()?.predictedClassLabel}"
+                    val confidence = response.body()?.confidence
+                    val classConfidences1 = response.body()?.classConfidences?.get("망치")
+                    val classConfidences2 = response.body()?.classConfidences?.get("공업용가위")
+
+                    Log.d("lsy","정확도2 :${confidence?.let { formatToPercentage(it) }} ")
+                    val result = """
+                        결과 : ${predictedClassLabel}
+                        정확도 : ${confidence?.let { formatToPercentage(it) }}
+                        다른 클래스들의 정확도 
+                        망치 : ${classConfidences1?.let { formatToPercentage(it) }}
+                        공업용가위 : ${classConfidences2?.let { formatToPercentage(it) }}
+                    """.trimIndent()
+
+                        resultView.text = result
                 } else {
                     Toast.makeText(this@AiPredictActivity, "Failed to create user: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
@@ -186,5 +204,16 @@ class AiPredictActivity : AppCompatActivity() {
         val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageBytes)
         return MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
     } // 함수끝
+
+    fun formatToPercentage(value: Double): String {
+        // 값을 100으로 곱해서 퍼센트로 변환
+        val percentageValue = value * 100
+
+        // 소수점 둘째 자리까지 포맷
+        val formattedValue = String.format("%.2f", percentageValue)
+
+        // 퍼센트 기호 추가
+        return "$formattedValue%"
+    }
 
 }
