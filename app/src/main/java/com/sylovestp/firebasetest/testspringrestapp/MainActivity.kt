@@ -48,6 +48,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // 버튼 클릭, 페이지 이동.
+        binding.ch06LsyAiPredictBtn.setOnClickListener {
+            val intent = Intent(this,AiPredictActivity::class.java)
+            startActivity(intent)
+        }
+
 
     } //oncreate
 }
