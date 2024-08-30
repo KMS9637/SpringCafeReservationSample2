@@ -17,6 +17,15 @@ import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface INetworkService {
+
+    @Multipart
+    @POST("/api/ai/predict")
+//    fun registerUser(@Body userDTO: UserDTO): Call<Void>
+    fun predictImage(
+//        @Part("user") user: RequestBody,          // JSON 데이터
+        @Part profileImage: MultipartBody.Part? = null    // 파일 데이터 (Optional)
+    ): Call<ResponseBody>
+
     @Multipart
     @POST("/public/users")
 //    fun registerUser(@Body userDTO: UserDTO): Call<Void>
