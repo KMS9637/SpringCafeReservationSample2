@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -20,7 +21,7 @@ import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityAiPredictBinding
-import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityJoinBinding
+import com.sylovestp.firebasetest.testspringrestapp.dto.PredictionResult
 import com.sylovestp.firebasetest.testspringrestapp.dto.UserDTO
 import com.sylovestp.firebasetest.testspringrestapp.retrofit.INetworkService
 import com.sylovestp.firebasetest.testspringrestapp.retrofit.MyApplication
@@ -32,7 +33,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,6 +41,7 @@ import java.io.ByteArrayOutputStream
 class AiPredictActivity : AppCompatActivity() {
     private lateinit var apiService: INetworkService
     private lateinit var imageView: ImageView
+    private lateinit var resultView: TextView
     private var imageUri: Uri? = null  // Nullable URI
 
     private val selectImageLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
@@ -69,6 +70,7 @@ class AiPredictActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         imageView = binding.userProfile2
+        resultView = binding.predictResultView
 
 
         binding.userProfile2.setOnClickListener {
@@ -76,8 +78,12 @@ class AiPredictActivity : AppCompatActivity() {
         }
 
         binding.predictSendBtn.setOnClickListener {
-
-           imageUri?.let { it1 -> processImage(it1) }
+            val username = "test"
+            val password = "1234"
+            val email = "test@naver.com"
+            val userDTO = UserDTO(username,password,email)
+            Toast.makeText(this@AiPredictActivity, "${username}, ${password},${email}, ${imageUri}", Toast.LENGTH_SHORT).show()
+           imageUri?.let { it1 -> processImage(userDTO,it1) }
 
         }
 
@@ -95,19 +101,20 @@ class AiPredictActivity : AppCompatActivity() {
     }
 
     // 이미지 처리 후, 서버로 전송하는 함수
-    private fun processImage(uri: Uri) {
+    private fun processImage(userDTO: UserDTO,uri: Uri) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 // 1. JSON 데이터 생성
-//                val userRequestBody = createRequestBodyFromDTO(userDTO)
+                val userRequestBody = createRequestBodyFromDTO(userDTO)
 
                 // 2. 이미지 축소 및 MultipartBody.Part 생성
                 val resizedBitmap = getResizedBitmap(uri, 200, 200) // 200x200 크기로 축소
                 val imageBytes = bitmapToByteArray(resizedBitmap)
                 val profileImagePart = createMultipartBodyFromBytes(imageBytes)
+                Log.d("lsy","profileImagePart 1" + profileImagePart)
 
                 // 3. 서버로 전송
-                uploadData(profileImagePart)
+                uploadData(userRequestBody,profileImagePart)
 
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@AiPredictActivity, "Image processed successfully", Toast.LENGTH_SHORT).show()
@@ -143,31 +150,36 @@ class AiPredictActivity : AppCompatActivity() {
     }// 함수끝
 
 
-    private fun uploadData(profileImage: MultipartBody.Part?) {
+    private fun uploadData(user: RequestBody, profileImage: MultipartBody.Part?) {
         // 레트로핏 통신 이용해서, 서버에 전달하기전에, 인터셉터 이용해서, 헤더에 토큰 달기.
         val myApplication = applicationContext as MyApplication
         myApplication.initialize(this)
         apiService = myApplication.getApiService()
 
+//        val apiService = (applicationContext as MyApplication).networkService
+        if (profileImage != null) {
+            Log.d("lsy", "profileImage 2: " + profileImage.body.contentLength())
+        }
 
-        val call = apiService.predictImage(profileImage)
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+        val call = apiService.predictImage(user,profileImage)
+        call.enqueue(object : Callback<PredictionResult> {
+            override fun onResponse(call: Call<PredictionResult>, response: Response<PredictionResult>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@AiPredictActivity, "서버 전송 성공", Toast.LENGTH_SHORT).show()
-                        Log.d("lsy","${response}")
+                        Log.d("lsy","${response.body()}")
+                        resultView.text = response.body().toString()
                 } else {
                     Toast.makeText(this@AiPredictActivity, "Failed to create user: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<PredictionResult>, t: Throwable) {
                 Toast.makeText(this@AiPredictActivity, "Request failed: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     } // 함수끝
 
-    fun createRequestBodyFromDTO(userDTO: UserDTO): RequestBody {
+    fun createRequestBodyFromDTO(userDTO: UserDTO?): RequestBody {
         val gson = Gson()
         val json = gson.toJson(userDTO)
         return json.toRequestBody("application/json".toMediaTypeOrNull())
@@ -176,7 +188,7 @@ class AiPredictActivity : AppCompatActivity() {
 
     private fun createMultipartBodyFromBytes(imageBytes: ByteArray): MultipartBody.Part {
         val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageBytes)
-        return MultipartBody.Part.createFormData("profileImage", "image.jpg", requestFile)
+        return MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
     } // 함수끝
 
 }

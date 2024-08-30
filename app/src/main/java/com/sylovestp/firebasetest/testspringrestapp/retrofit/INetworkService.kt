@@ -3,6 +3,7 @@ package com.sylovestp.firebasetest.testspringrestapp.retrofit
 import com.sylovestp.firebasetest.testspringrestapp.dto.LoginRequest
 import com.sylovestp.firebasetest.testspringrestapp.dto.LoginResponse
 import com.sylovestp.firebasetest.testspringrestapp.dto.PageResponse
+import com.sylovestp.firebasetest.testspringrestapp.dto.PredictionResult
 import com.sylovestp.firebasetest.testspringrestapp.dto.UserItem
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -20,11 +21,12 @@ interface INetworkService {
 
     @Multipart
     @POST("/api/ai/predict")
+//    @POST("/public/users/predict")
 //    fun registerUser(@Body userDTO: UserDTO): Call<Void>
     fun predictImage(
-//        @Part("user") user: RequestBody,          // JSON 데이터
+        @Part("user") user: RequestBody?,          // JSON 데이터
         @Part image: MultipartBody.Part? = null    // 파일 데이터 (Optional)
-    ): Call<ResponseBody>
+    ): Call<PredictionResult>
 
     @Multipart
     @POST("/public/users")
