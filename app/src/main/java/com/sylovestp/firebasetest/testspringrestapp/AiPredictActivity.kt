@@ -22,6 +22,7 @@ import com.google.gson.Gson
 import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityAiPredictBinding
 import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityJoinBinding
 import com.sylovestp.firebasetest.testspringrestapp.dto.UserDTO
+import com.sylovestp.firebasetest.testspringrestapp.retrofit.INetworkService
 import com.sylovestp.firebasetest.testspringrestapp.retrofit.MyApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -38,6 +39,7 @@ import retrofit2.Response
 import java.io.ByteArrayOutputStream
 
 class AiPredictActivity : AppCompatActivity() {
+    private lateinit var apiService: INetworkService
     private lateinit var imageView: ImageView
     private var imageUri: Uri? = null  // Nullable URI
 
@@ -142,8 +144,13 @@ class AiPredictActivity : AppCompatActivity() {
 
 
     private fun uploadData(profileImage: MultipartBody.Part?) {
-        val networkService = (applicationContext as MyApplication).networkService
-        val call = networkService.predictImage(profileImage)
+        // 레트로핏 통신 이용해서, 서버에 전달하기전에, 인터셉터 이용해서, 헤더에 토큰 달기.
+        val myApplication = applicationContext as MyApplication
+        myApplication.initialize(this)
+        apiService = myApplication.getApiService()
+
+
+        val call = apiService.predictImage(profileImage)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {

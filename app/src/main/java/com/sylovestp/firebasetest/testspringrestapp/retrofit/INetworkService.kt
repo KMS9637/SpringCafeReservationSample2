@@ -23,7 +23,7 @@ interface INetworkService {
 //    fun registerUser(@Body userDTO: UserDTO): Call<Void>
     fun predictImage(
 //        @Part("user") user: RequestBody,          // JSON 데이터
-        @Part profileImage: MultipartBody.Part? = null    // 파일 데이터 (Optional)
+        @Part image: MultipartBody.Part? = null    // 파일 데이터 (Optional)
     ): Call<ResponseBody>
 
     @Multipart
