@@ -75,6 +75,8 @@ dependencies {
     // 추가 glide 관련 툴 .
     kapt ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("com.github.bumptech.glide:okhttp3-integration:4.12.0")
+    // webkit, 다음 주소 웹 뷰 사용하기.
+    implementation("androidx.webkit:webkit:1.8.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

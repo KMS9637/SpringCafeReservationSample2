@@ -21,6 +21,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AddressFinder"
+            android:exported="true" />
+        <activity
             android:name=".AiPredictActivity"
             android:exported="true" />
         <activity

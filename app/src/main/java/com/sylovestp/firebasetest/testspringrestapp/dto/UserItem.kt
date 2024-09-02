@@ -7,5 +7,7 @@ data class UserItem(
     val password: String,
 //    val reservations: List<Reservation>,
     val profileImageId: String,
+    val phone: String,
+    val address: String,
 //    val roleSet: List<String>
 )

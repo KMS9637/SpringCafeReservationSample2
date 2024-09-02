@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityJoinBinding
+import com.sylovestp.firebasetest.testspringrestapp.databinding.ItemViewBinding
 import com.sylovestp.firebasetest.testspringrestapp.dto.UserDTO
 import com.sylovestp.firebasetest.testspringrestapp.retrofit.MyApplication
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +41,7 @@ import java.io.ByteArrayOutputStream
 class JoinActivity : AppCompatActivity() {
 
     private lateinit var imageView: ImageView
+    private lateinit var binding: ActivityJoinBinding
     private var imageUri: Uri? = null  // Nullable URI
 
     private val selectImageLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
@@ -62,7 +65,7 @@ class JoinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val binding = ActivityJoinBinding.inflate(layoutInflater)
+        binding = ActivityJoinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         imageView = binding.userProfile
@@ -85,7 +88,9 @@ class JoinActivity : AppCompatActivity() {
             val username = binding.userUsername.text.toString()
             val password = binding.userPassword1.text.toString()
             val email = binding.userEmail.text.toString()
-            val userDTO = UserDTO(username,password,email)
+            val phone = binding.userPhone.text.toString()
+            val address = binding.userAddress.text.toString()
+            val userDTO = UserDTO(username,password,email,phone,address)
             Toast.makeText(this@JoinActivity, "${username}, ${password},${email}, ${imageUri}", Toast.LENGTH_SHORT).show()
             if (userDTO != null) {
                 // 회원가입시,
@@ -98,6 +103,11 @@ class JoinActivity : AppCompatActivity() {
             val intent = Intent(this@JoinActivity, LoginActivity::class.java)
             startActivity(intent)
             finish()
+        }
+
+        binding.findAddressBtn.setOnClickListener {
+            val intent = Intent(this@JoinActivity, AddressFinder::class.java)
+            startActivity(intent)
         }
 
 
@@ -184,6 +194,17 @@ class JoinActivity : AppCompatActivity() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream) // 압축 품질을 80%로 설정
         return byteArrayOutputStream.toByteArray()
     }
+
+    // 다음 우편 주소
+    fun openAddressFinder(binding: ActivityJoinBinding){
+        AddressFinder.open { b ->
+            val zipCode = b.getString(AddressFinder.ZIPCODE)
+            val address = b.getString(AddressFinder.ADDRESS)
+            val editableText: Editable = Editable.Factory.getInstance().newEditable("주소: [$zipCode] $address")
+            binding.userAddress.text = editableText
+        }
+    }
+
 
 
 }

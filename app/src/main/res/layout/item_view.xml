@@ -8,8 +8,8 @@
     <!-- Profile Image -->
     <ImageView
         android:id="@+id/item_profile_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop"
         android:src="@drawable/user_profile_" />
@@ -17,7 +17,7 @@
     <!-- Username -->
     <LinearLayout
         android:layout_width="250dp"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:orientation="vertical"
         android:layout_marginLeft="10dp">
 
@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:text="Username"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginTop="8dp" />
+            android:textSize="15sp"
+            />
 
         <!-- Email -->
         <TextView
@@ -36,7 +36,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
-            android:textSize="20sp"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Phone -->
+        <TextView
+            android:id="@+id/item_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- address -->
+        <TextView
+            android:id="@+id/item_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textSize="15sp"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>

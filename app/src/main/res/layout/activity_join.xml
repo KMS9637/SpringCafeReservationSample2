@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".JoinActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,9 +27,9 @@
             android:id="@+id/user_profile"
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:src="@drawable/user_profile_"
-            android:maxWidth="300dp"
+            android:maxWidth="200dp"
             android:maxHeight="200dp"
             android:adjustViewBounds="true"/>
 
@@ -34,7 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <EditText
@@ -65,12 +68,30 @@
                 android:hint="패스워드 한번 더 입력해주세요"
                 android:inputType="textPassword"/>
 
+            <EditText
+                android:id="@+id/user_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="전화번호 입력해주세요"
+                android:inputType="phone"/>
+            <EditText
+                android:id="@+id/user_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="주소 입력해주세요"
+                android:inputType="text"/>
+            <Button
+                android:id="@+id/find_address_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="주소찾기"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <Button
@@ -91,5 +112,6 @@
 
 
     </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

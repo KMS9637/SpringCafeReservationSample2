@@ -30,6 +30,9 @@ class MyAdapterRetrofit(val context: Context, val datas: List<UserItem>?)
         val item = datas?.get(position)
         binding.itemEmail.text = item?.email
         binding.itemUsername.text = item?.username
+        binding.itemPhone.text = item?.phone
+        binding.itemAddress.text = item?.address
+
         val imageUrl = "http://10.100.201.87:8080/api/users/${item?.id}/profileImage"
         Glide.with(context)
 
