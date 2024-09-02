@@ -34,6 +34,7 @@ class MyAdapterRetrofit(val context: Context, val datas: List<UserItem>?)
         binding.itemAddress.text = item?.address
 
         val imageUrl = "http://10.100.201.87:8080/api/users/${item?.id}/profileImage"
+//        val imageUrl = "http://192.168.219.200:8080/api/users/${item?.id}/profileImage"
         Glide.with(context)
 
             .load(imageUrl)  // profileImageId는 URL 또는 리소스 ID일 수 있습니다
