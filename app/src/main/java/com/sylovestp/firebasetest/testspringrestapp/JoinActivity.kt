@@ -88,13 +88,14 @@ class JoinActivity : AppCompatActivity() {
 
         binding.joinBtn.setOnClickListener {
             val username = binding.userUsername.text.toString()
+            val name = binding.userName.text.toString()
             val password = binding.userPassword1.text.toString()
             val email = binding.userEmail.text.toString()
             val phone = binding.userPhone.text.toString()
             val address = binding.userAddress.text.toString()
             val detailAddress = binding.userAddressDetail.text.toString()
             val fullAddress =  address + " " + detailAddress
-            val userDTO = UserDTO(username,password,email,phone,fullAddress)
+            val userDTO = UserDTO(username,name,password,email,phone,fullAddress)
             Toast.makeText(this@JoinActivity, "${username}, ${password},${email}, ${imageUri}", Toast.LENGTH_SHORT).show()
             if (userDTO != null) {
                 // 회원가입시,
