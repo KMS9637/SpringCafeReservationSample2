@@ -53,13 +53,13 @@ class JoinActivity : AppCompatActivity() {
             imageUri = result.data?.data!!
 //            imageView.setImageURI(imageUri)
             // 코너 반경 (px 단위)
-            val cornerRadius = 500
+//            val cornerRadius = 500
 
 
 // 이미지 로드 및 코너 둥글게 적용
             Glide.with(this)
                 .load(imageUri) // 이미지 URL 또는 로컬 리소스
-                .apply(RequestOptions().transform(RoundedCorners(cornerRadius)))
+                .apply(RequestOptions().circleCrop())
                 .into(imageView)
         }
     }
