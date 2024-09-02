@@ -80,6 +80,12 @@
                 android:layout_height="wrap_content"
                 android:hint="주소 입력해주세요"
                 android:inputType="text"/>
+            <EditText
+                android:id="@+id/user_address_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="상세주소 입력해주세요"
+                android:inputType="text"/>
             <Button
                 android:id="@+id/find_address_btn"
                 android:layout_width="match_parent"

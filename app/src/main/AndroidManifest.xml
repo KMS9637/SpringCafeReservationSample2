@@ -20,9 +20,14 @@
         android:theme="@style/Theme.TestSpringRestApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".AddressFinder"
-            android:exported="true" />
+        <activity android:name=".AddressFinder"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.addressfinder.FINDER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".AiPredictActivity"
             android:exported="true" />

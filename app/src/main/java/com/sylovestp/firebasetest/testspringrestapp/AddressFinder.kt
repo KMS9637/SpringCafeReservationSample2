@@ -28,7 +28,7 @@ class AddressFinder: Activity() {
         const val ZIPCODE = "zipcode"
 
         private var launcher: ActivityResultLauncher<Bundle>? = null
-        private val contract: ActivityResultContract<Bundle, Bundle>
+        val contract: ActivityResultContract<Bundle, Bundle>
             get() = object: ActivityResultContract<Bundle, Bundle>(){
             override fun createIntent(context: Context, input: Bundle): Intent = Intent(ACTION)
             override fun parseResult(resultCode: Int, intent: Intent?): Bundle =

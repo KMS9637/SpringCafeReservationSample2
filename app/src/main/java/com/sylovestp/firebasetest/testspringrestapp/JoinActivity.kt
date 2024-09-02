@@ -43,6 +43,8 @@ class JoinActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
     private lateinit var binding: ActivityJoinBinding
     private var imageUri: Uri? = null  // Nullable URI
+    // ActivityResultLauncher 선언
+    private lateinit var addressFinderLauncher: ActivityResultLauncher<Bundle>
 
     private val selectImageLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -90,7 +92,9 @@ class JoinActivity : AppCompatActivity() {
             val email = binding.userEmail.text.toString()
             val phone = binding.userPhone.text.toString()
             val address = binding.userAddress.text.toString()
-            val userDTO = UserDTO(username,password,email,phone,address)
+            val detailAddress = binding.userAddressDetail.text.toString()
+            val fullAddress =  address + " " + detailAddress
+            val userDTO = UserDTO(username,password,email,phone,fullAddress)
             Toast.makeText(this@JoinActivity, "${username}, ${password},${email}, ${imageUri}", Toast.LENGTH_SHORT).show()
             if (userDTO != null) {
                 // 회원가입시,
@@ -105,10 +109,25 @@ class JoinActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.findAddressBtn.setOnClickListener {
-            val intent = Intent(this@JoinActivity, AddressFinder::class.java)
-            startActivity(intent)
+
+        // ActivityResultLauncher 등록
+        addressFinderLauncher = registerForActivityResult(AddressFinder.contract) { result ->
+            if (result != Bundle.EMPTY) {
+                // address와 zipcode 값을 받아온 후 처리
+                val address = result.getString(AddressFinder.ADDRESS)
+                val zipCode = result.getString(AddressFinder.ZIPCODE)
+                val editableText: Editable = Editable.Factory.getInstance().newEditable("[$zipCode] $address")
+                // 받은 데이터를 사용해 필요한 작업 수행
+                binding.userAddress.text = editableText
+            }
         }
+
+        // 버튼 클릭 리스너 설정
+        binding.findAddressBtn.setOnClickListener {
+            // AddressFinder 액티비티 시작
+            addressFinderLauncher.launch(Bundle())
+        }
+
 
 
     } //onCreate
@@ -194,17 +213,6 @@ class JoinActivity : AppCompatActivity() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream) // 압축 품질을 80%로 설정
         return byteArrayOutputStream.toByteArray()
     }
-
-    // 다음 우편 주소
-    fun openAddressFinder(binding: ActivityJoinBinding){
-        AddressFinder.open { b ->
-            val zipCode = b.getString(AddressFinder.ZIPCODE)
-            val address = b.getString(AddressFinder.ADDRESS)
-            val editableText: Editable = Editable.Factory.getInstance().newEditable("주소: [$zipCode] $address")
-            binding.userAddress.text = editableText
-        }
-    }
-
 
 
 }
