@@ -54,6 +54,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.ch06LsyPayBtn.setOnClickListener {
+            //회원가입 버튼 클릭시, 회원가입 페이지 이동하기.
+            val intent = Intent(this,PayTestActivity::class.java)
+            // 메세지 전달하기.
+            startActivity(intent)
+        }
+
 
     } //oncreate
 }

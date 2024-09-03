@@ -30,6 +30,16 @@
             android:textSize="15sp"
             />
 
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            />
+
         <!-- Email -->
         <TextView
             android:id="@+id/item_email"
@@ -37,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="Email"
             android:textSize="15sp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="5dp" />
 
         <!-- Phone -->
         <TextView
@@ -46,7 +56,7 @@
             android:layout_height="wrap_content"
             android:text="Phone"
             android:textSize="15sp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="5dp" />
 
         <!-- address -->
         <TextView
@@ -55,7 +65,7 @@
             android:layout_height="wrap_content"
             android:text="Address"
             android:textSize="15sp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="5dp" />
 
     </LinearLayout>
 

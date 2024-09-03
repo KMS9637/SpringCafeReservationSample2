@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,11 +78,18 @@
                 android:layout_height="wrap_content"
                 android:text="Ai 이미지 예측 테스트 "/>
 
+            <Button
+                android:id="@+id/ch06LsyPayBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="결제 테스트 "/>
+
 
         </LinearLayout>
 
 
 
     </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

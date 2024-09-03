@@ -30,6 +30,7 @@ class MyAdapterRetrofit(val context: Context, val datas: List<UserItem>?)
         val item = datas?.get(position)
         binding.itemEmail.text = item?.email
         binding.itemUsername.text = item?.username
+        binding.itemName.text = item?.name
         binding.itemPhone.text = item?.phone
         binding.itemAddress.text = item?.address
 

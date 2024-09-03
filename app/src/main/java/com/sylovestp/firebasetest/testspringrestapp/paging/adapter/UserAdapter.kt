@@ -31,6 +31,7 @@ class UserAdapter : PagingDataAdapter<UserItem, UserAdapter.UserViewHolder>(DIFF
 
         fun bind(user: UserItem) {
             binding.itemUsername.text = user.username
+            binding.itemName.text = user.name
             binding.itemEmail.text = user.email
             binding.itemPhone.text = user.phone
             binding.itemAddress.text = user.address
