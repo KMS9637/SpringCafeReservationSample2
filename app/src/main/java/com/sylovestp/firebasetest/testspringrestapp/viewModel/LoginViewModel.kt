@@ -12,9 +12,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<Boolean>()
     val loginResult: LiveData<Boolean> get() = _loginResult
 
-    fun login(username: String, password: String) {
+    fun login(memberId: String, memberPw: String) {
         viewModelScope.launch {
-            val success = loginRepository.login(username, password)
+            val success = loginRepository.login(memberId, memberPw)
             _loginResult.value = success
         }
     }

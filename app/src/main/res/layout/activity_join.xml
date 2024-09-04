@@ -54,12 +54,12 @@
                 android:hint="name 입력해주세요"
                 android:inputType="text"/>
 
-            <EditText
-                android:id="@+id/user_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="이메일 입력해주세요"
-                android:inputType="textEmailAddress"/>
+<!--            <EditText-->
+<!--                android:id="@+id/user_email"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="이메일 입력해주세요"-->
+<!--                android:inputType="textEmailAddress"/>-->
 
             <EditText
                 android:id="@+id/user_password1"
@@ -75,29 +75,29 @@
                 android:hint="패스워드 한번 더 입력해주세요"
                 android:inputType="textPassword"/>
 
-            <EditText
-                android:id="@+id/user_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="전화번호 입력해주세요"
-                android:inputType="phone"/>
-            <EditText
-                android:id="@+id/user_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="주소 입력해주세요"
-                android:inputType="text"/>
-            <EditText
-                android:id="@+id/user_address_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="상세주소 입력해주세요"
-                android:inputType="text"/>
-            <Button
-                android:id="@+id/find_address_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="주소찾기"/>
+<!--            <EditText-->
+<!--                android:id="@+id/user_phone"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="전화번호 입력해주세요"-->
+<!--                android:inputType="phone"/>-->
+<!--            <EditText-->
+<!--                android:id="@+id/user_address"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="주소 입력해주세요"-->
+<!--                android:inputType="text"/>-->
+<!--            <EditText-->
+<!--                android:id="@+id/user_address_detail"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="상세주소 입력해주세요"-->
+<!--                android:inputType="text"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/find_address_btn"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="주소찾기"/>-->
 
         </LinearLayout>
 

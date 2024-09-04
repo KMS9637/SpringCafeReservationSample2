@@ -48,10 +48,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.loginLoginBtn.setOnClickListener {
-            val username = binding.loginUsername.text.toString()
-            val password = binding.loginPassword.text.toString()
+            val memberId = binding.loginUsername.text.toString()
+            val memberPw = binding.loginPassword.text.toString()
 
-            loginViewModel.login(username, password)
+            loginViewModel.login(memberId, memberPw)
         }
 
         loginViewModel.loginResult.observe(this) { success ->

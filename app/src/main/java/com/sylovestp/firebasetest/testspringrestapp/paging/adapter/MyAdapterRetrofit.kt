@@ -28,13 +28,11 @@ class MyAdapterRetrofit(val context: Context, val datas: List<UserItem>?)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MyViewHolderRetrofit).binding
         val item = datas?.get(position)
-        binding.itemEmail.text = item?.email
-        binding.itemUsername.text = item?.username
-        binding.itemName.text = item?.name
-        binding.itemPhone.text = item?.phone
-        binding.itemAddress.text = item?.address
+        binding.itemUsername.text = item?.memberId
+        binding.itemName.text = item?.memberName
 
-        val imageUrl = "http://10.100.201.87:8080/api/users/${item?.id}/profileImage"
+
+        val imageUrl = "http://10.100.201.41:8080/api/users/${item?.memberNo}/profileImage"
 //        val imageUrl = "http://192.168.219.200:8080/api/users/${item?.id}/profileImage"
         Glide.with(context)
 

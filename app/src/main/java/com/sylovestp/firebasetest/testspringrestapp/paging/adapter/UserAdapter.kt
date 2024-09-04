@@ -30,13 +30,10 @@ class UserAdapter : PagingDataAdapter<UserItem, UserAdapter.UserViewHolder>(DIFF
     class UserViewHolder(private val binding: ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: UserItem) {
-            binding.itemUsername.text = user.username
-            binding.itemName.text = user.name
-            binding.itemEmail.text = user.email
-            binding.itemPhone.text = user.phone
-            binding.itemAddress.text = user.address
+            binding.itemUsername.text = user.memberName
+            binding.itemName.text = user.memberId
 
-            val imageUrl = "http://10.100.201.87:8080/api/users/${user.id}/profileImage"
+            val imageUrl = "http://10.100.201.41:8080/api/users/${user.memberNo}/profileImage"
 //            val imageUrl = "http://192.168.219.200:8080/api/users/${user?.id}/profileImage"
             Glide.with(binding.root.context)
                 .load(imageUrl)
@@ -48,7 +45,7 @@ class UserAdapter : PagingDataAdapter<UserItem, UserAdapter.UserViewHolder>(DIFF
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserItem>() {
             override fun areItemsTheSame(oldItem: UserItem, newItem: UserItem): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.memberNo == newItem.memberNo
             }
 
             override fun areContentsTheSame(oldItem: UserItem, newItem: UserItem): Boolean {
