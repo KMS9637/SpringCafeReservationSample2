@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,6 +59,12 @@ class MainActivity : AppCompatActivity() {
             //회원가입 버튼 클릭시, 회원가입 페이지 이동하기.
             val intent = Intent(this,PayTestActivity::class.java)
             // 메세지 전달하기.
+            startActivity(intent)
+        }
+
+        // 버튼 요소 선택하기. 프로필 화면 이동하기
+        binding.ch06LsyProfileBtn.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
 

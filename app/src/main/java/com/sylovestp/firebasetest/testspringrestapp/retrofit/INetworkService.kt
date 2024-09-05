@@ -4,6 +4,7 @@ import com.sylovestp.firebasetest.testspringrestapp.dto.LoginRequest
 import com.sylovestp.firebasetest.testspringrestapp.dto.LoginResponse
 import com.sylovestp.firebasetest.testspringrestapp.dto.PageResponse
 import com.sylovestp.firebasetest.testspringrestapp.dto.PredictionResult
+import com.sylovestp.firebasetest.testspringrestapp.dto.UserDTO
 import com.sylovestp.firebasetest.testspringrestapp.dto.UserItem
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -11,11 +12,15 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
+import java.lang.reflect.Member
 
 interface INetworkService {
 
@@ -28,13 +33,10 @@ interface INetworkService {
         @Part image: MultipartBody.Part? = null    // 파일 데이터 (Optional)
     ): Call<PredictionResult>
 
-    @Multipart
-    @POST("/public/users")
+
+    @POST("/api/member")
 //    fun registerUser(@Body userDTO: UserDTO): Call<Void>
-    fun registerUser(
-        @Part("user") user: RequestBody,          // JSON 데이터
-        @Part profileImage: MultipartBody.Part? = null    // 파일 데이터 (Optional)
-    ): Call<ResponseBody>
+    fun registerUser(@Body user: UserDTO): Call<UserDTO>
 
     @POST("/generateToken")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
@@ -50,4 +52,10 @@ interface INetworkService {
         @Query("page") page: Int,
         @Query("size") size: Int
     ): Response<PageResponse<UserItem>>
+
+    @DELETE("/api/member/{memberNo}")
+    suspend fun deleteUser(
+        @Header("Authorization") token: String,
+        @Path("memberNo") memberNo: String
+    ): Response<Unit>
 }

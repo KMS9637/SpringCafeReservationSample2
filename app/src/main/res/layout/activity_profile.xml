@@ -1,0 +1,132 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <!-- 상단 툴바 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="16dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="-2dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="뒤로 가기"
+            android:src="@drawable/ic_back_remove" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="프로필 수정"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <!-- 닉네임 설정 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아직 아무것도 없다"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+            android:id="@+id/btn_edit_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_edit"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="닉네임 수정"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <!-- 소개 키워드 설정 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="소개 키워드"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/tv_intro_keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="소개 키워드를 입력하세요"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+            android:id="@+id/btn_edit_intro_keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_edit"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="소개 키워드 수정"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <!-- 삭제 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_delete_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="계정 삭제"
+            android:layout_marginTop="60dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/btn_delete_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="60dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="계정 삭제"
+            android:src="@android:drawable/ic_menu_delete" />
+    </RelativeLayout>
+
+</LinearLayout>

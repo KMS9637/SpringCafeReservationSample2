@@ -4,23 +4,26 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.sylovestp.firebasetest.testspringrestapp.JoinActivity
+import com.sylovestp.firebasetest.testspringrestapp.MainActivity
+import com.sylovestp.firebasetest.testspringrestapp.R
 import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityLoginBinding
-import com.sylovestp.firebasetest.testspringrestapp.databinding.ActivityMainBinding
 import com.sylovestp.firebasetest.testspringrestapp.repository.LoginRepository
 import com.sylovestp.firebasetest.testspringrestapp.retrofit.INetworkService
 import com.sylovestp.firebasetest.testspringrestapp.retrofit.MyApplication
 import com.sylovestp.firebasetest.testspringrestapp.viewModel.LoginViewModel
-import com.sylovestp.firebasetest.testspringrestapp.viewModelFactory.LoginViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var apiService: INetworkService
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +32,13 @@ class LoginActivity : AppCompatActivity() {
         val binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val myApplication = applicationContext as MyApplication
-        myApplication.initialize(this)
+        val myApplication = application as MyApplication
+        myApplication.initialize(this)  // Initialize the application
         apiService = myApplication.getApiService()
-
         sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+        // ViewModel 초기화
+        loginViewModel = LoginViewModel(LoginRepository(apiService, sharedPreferences))
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -54,25 +59,27 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.login(memberId, memberPw)
         }
 
-        loginViewModel.loginResult.observe(this) { success ->
-            if (success) {
+        loginViewModel.loginResult.observe(this) { loginResponse ->
+            if (loginResponse != null) {
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
-                // 로그인 성공 시 다음 화면으로 이동
+                Log.d("lsy", "loginResponse.memberNo : ${loginResponse.memberNo}")
+                saveMemberNo(loginResponse.memberNo)
+                Log.d("LoginActivity", "서버에서 받은 회원 번호: ${loginResponse.memberNo}")
+
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
-                // 로그인 실패 시 메시지 표시
                 Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-    } //onCreate
-
-    private val loginViewModel: LoginViewModel by viewModels {
-        val loginRepository = LoginRepository(apiService, sharedPreferences)
-        LoginViewModelFactory(loginRepository)
     }
 
+    private fun saveMemberNo(memberNo: String) {
+        Log.d("LoginActivity", "저장할 회원 번호: $memberNo")
+        val editor = sharedPreferences.edit()
+        editor.putString("memberNo", memberNo)
+        editor.apply()
 
+        Log.d("LoginActivity", "회원 번호 저장됨: $memberNo")
+    }
 }

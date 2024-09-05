@@ -84,6 +84,11 @@
                 android:layout_height="wrap_content"
                 android:text="결제 테스트 "/>
 
+            <Button
+                android:id="@+id/ch06LsyProfileBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="프로필 화면"/>
 
         </LinearLayout>
 
