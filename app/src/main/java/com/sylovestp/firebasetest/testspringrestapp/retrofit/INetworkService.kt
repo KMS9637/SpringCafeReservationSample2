@@ -53,9 +53,9 @@ interface INetworkService {
         @Query("size") size: Int
     ): Response<PageResponse<UserItem>>
 
-    @DELETE("/api/member/{memberNo}")
+    @DELETE("/api/member/{memberId}")
     suspend fun deleteUser(
         @Header("Authorization") token: String,
-        @Path("memberNo") memberNo: String
+        @Path("memberId") memberId: String
     ): Response<Unit>
 }

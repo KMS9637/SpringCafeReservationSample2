@@ -18,23 +18,23 @@ class LoginRepository(private val apiService: INetworkService, private val share
             val loginResponse = response.body()!!
             val accessToken = loginResponse.accessToken
             val refreshToken = loginResponse.refreshToken
-            val responseMemberNo = loginResponse.memberNo
+            val responseMemberId = loginResponse.memberId
             Log.d("lsy accessToken","accessToken : ${accessToken}" )
             Log.d("lsy refreshToken","refreshToken : ${refreshToken}" )
-            Log.d("lsy responseMemberNo","responseMemberNo : ${responseMemberNo}")
+            Log.d("lsy responseMemberId","responseMemberId : ${responseMemberId}")
 
             // JWT 토큰을 SharedPreferences에 저장
             sharedPreferences.edit().apply {
                 putString("jwt_token", accessToken)
                 putString("refreshToken", refreshToken)
-                putString("memberNo", responseMemberNo)
+                putString("memberId", responseMemberId)
                 apply()
             }
 
             // 데이터 저장 후 확인 (디버깅용)
-            val savedMemberNo = sharedPreferences.getString("memberNo", "123456")
-            Log.d("LoginRepository", "저장된 회원 번호: $savedMemberNo")
-            Log.d("LoginRepository", "응답 회원 번호: $responseMemberNo")
+            val savedMemberId = sharedPreferences.getString("memberId", "123456")
+            Log.d("LoginRepository", "저장된 회원 번호: $savedMemberId")
+            Log.d("LoginRepository", "응답 회원 번호: $responseMemberId")
 
 //            if (savedMemberNo != responseMemberNo) {
 //                Log.e("LoginRepository", "저장된 memberNo가 예상 값과 일치하지 않음")
@@ -49,8 +49,8 @@ class LoginRepository(private val apiService: INetworkService, private val share
     }
 
     // 회원 삭제 요청
-    suspend fun deleteUser(token: String, memberNo: String): Response<Unit > {
-        return apiService.deleteUser(token, memberNo)
+    suspend fun deleteUser(token: String, memberId: String): Response<Unit > {
+        return apiService.deleteUser(token, memberId)
     }
 
     // JWT 토큰 가져오기

@@ -39,10 +39,10 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     }
 
     // 회원 삭제 요청
-    fun deleteUser(memberNo: String, token: String) {
+    fun deleteUser(memberId: String, token: String) {
         viewModelScope.launch {
             try {
-                val response: Response<Unit> = loginRepository.deleteUser("Bearer $token", memberNo)
+                val response: Response<Unit> = loginRepository.deleteUser("Bearer $token", memberId)
                 _deleteResult.value = response.isSuccessful
                 if (response.isSuccessful) {
                     Log.d("LoginViewModel", "회원 삭제 성공")

@@ -52,12 +52,12 @@ class ProfileActivity : AppCompatActivity() {
                 .setTitle("계정 삭제")
                 .setMessage("정말로 계정을 삭제하시겠습니까?")
                 .setPositiveButton("삭제") { dialog, which ->
-                    val memberNo = getMemberNo()
+                    val memberId = getMemberId()
                     val token = getJwtToken()
 
-                    if (memberNo != null && token != null) {
+                    if (memberId != null && token != null) {
                         // 삭제 요청
-                        loginViewModel.deleteUser(memberNo, token)
+                        loginViewModel.deleteUser(memberId, token)
                     } else {
                         Toast.makeText(this, "회원 정보나 토큰을 가져오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
                     }
@@ -109,11 +109,11 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun getMemberNo(): String? {
-        val memberNo = sharedPreferences.getString("memberNo", "123")
-        return if (memberNo != null) {
-            Log.d("ProfileActivity", "회원 번호 로드됨: $memberNo")
-            memberNo
+    private fun getMemberId(): String? {
+        val memberId = sharedPreferences.getString("memberId", "123")
+        return if (memberId != null) {
+            Log.d("ProfileActivity", "회원 번호 로드됨: $memberId")
+            memberId
         } else {
             Log.e("ProfileActivity", "회원 번호가 SharedPreferences에 없습니다.")
             null

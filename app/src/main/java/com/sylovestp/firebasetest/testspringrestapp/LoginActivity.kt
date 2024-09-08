@@ -62,9 +62,9 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginResult.observe(this) { loginResponse ->
             if (loginResponse != null) {
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
-                Log.d("lsy", "loginResponse.memberNo : ${loginResponse.memberNo}")
-                saveMemberNo(loginResponse.memberNo)
-                Log.d("LoginActivity", "서버에서 받은 회원 번호: ${loginResponse.memberNo}")
+                Log.d("lsy", "loginResponse.memberNo : ${loginResponse.memberId}")
+                saveMemberNo(loginResponse.memberId)
+                Log.d("LoginActivity", "서버에서 받은 회원 번호: ${loginResponse.memberId}")
 
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
@@ -74,12 +74,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveMemberNo(memberNo: String) {
-        Log.d("LoginActivity", "저장할 회원 번호: $memberNo")
+    private fun saveMemberNo(memberId: String) {
+        Log.d("LoginActivity", "저장할 회원 번호: $memberId")
         val editor = sharedPreferences.edit()
-        editor.putString("memberNo", memberNo)
+        editor.putString("memberId", memberId)
         editor.apply()
 
-        Log.d("LoginActivity", "회원 번호 저장됨: $memberNo")
+        Log.d("LoginActivity", "회원 번호 저장됨: $memberId")
     }
 }
